@@ -1,0 +1,19 @@
+<h1>Search</h1>
+
+<%= form_with scope: :search, url: searches_path, local: true do |form| %>
+  <p>
+    <%= form.label :keyword %><br>
+    <%= form.text_field :keyword %>
+  </p>
+ 
+  <p>
+    <%= form.label :deadline %><br>
+    <%= form.date_field :deadline %>
+  </p>
+ 
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', tasks_path %>
