@@ -1,49 +1,44 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.order(deadline: :asc)
+    tasks = Task.order(deadline: :asc)
+    render json: tasks
   end
 
   def show
-    @task = Task.find(params[:id])
-  end
-
-  def new
-    @task = Task.new
-  end
-
-  def edit
-    @task = Task.find(params[:id])
+    if task
+      render json: task
+    else
+      render json: task.errors
+    end
   end
 
   def create
-    @task = Task.new(task_params)
+    task = Task.create!(task_params)
 
-    if @task.save
-      redirect_to @task
+    if task
+      render json: task
     else
-      render 'new'
+      render json: task.errors
     end
   end
 
   def update
     @task = Task.find(params[:id])
-
-    if @task.update(task_params)
-      redirect_to @task
-    else
-      render 'edit'
-    end
+    @task.update(task_params)
+    render json: @task
   end
 
   def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
-
-    redirect_to tasks_path
+    task&.destroy
+    render json: { message: 'Task completed!' }
   end
 
   private
   def task_params
     params.require(:task).permit(:title, :description, :tag, :deadline)
+  end
+
+  def task
+    @task ||= Task.find(params[:id])
   end
 end
