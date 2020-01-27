@@ -33,9 +33,21 @@ class TasksController < ApplicationController
     render json: { message: 'Task completed!' }
   end
 
+  def search
+    @search = Search.new(search_params)
+    @tasks = Task.order(deadline: :asc)
+    @tasks = Task.where("tag LIKE ?", "%" + @search.keyword + "%") if @search.keyword.present?
+    @tasks = @tasks.where("deadline < ?", @search.deadline) if @search.deadline.present?
+    render json: @tasks
+  end
+
   private
   def task_params
     params.require(:task).permit(:title, :description, :tag, :deadline)
+  end
+
+  def search_params
+    params.require(:search).permit(:keyword, :deadline)
   end
 
   def task

@@ -5,8 +5,12 @@ class Tasks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tasks: []
-        };
+            tasks: [],
+            searchTag: "",
+            searchTitle: ""
+    };
+
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
@@ -18,13 +22,19 @@ class Tasks extends React.Component {
                 }
                 throw new Error("Network response was not ok.");
             })
-            .then(response => this.setState({ tasks: response }))
+            .then(response => this.setState({ tasks: response}))
             .catch(() => this.props.history.push("/"));
     }
 
+    onChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
     render() {
-        const { tasks } = this.state;
-        const allTasks = tasks.map((task, index) => (
+        const { tasks, searchTag, searchTitle} = this.state;
+        const allTasks = tasks.filter((task, index) => task.tag.includes(searchTag))
+            .filter((task, index) => task.title.includes(searchTitle))
+            .map((task, index) => (
             <tr key={index}>
                 <th scope="row">{index+1}</th>
                 <td>{task.title}</td>
@@ -63,6 +73,28 @@ class Tasks extends React.Component {
                             <Link to="/task" className="btn custom-button">
                                 Create New Task
                             </Link>
+                        </div>
+
+                        <div className="form-group mb-3">
+                            <label>Tag Search:</label>
+                            <input
+                                type="text"
+                                name="searchTag"
+                                className="form-control"
+                                onChange={this.onChange}
+                                value={searchTag}
+                            />
+                        </div>
+
+                        <div className="form-group mb-3">
+                            <label>Title Search:</label>
+                            <input
+                                type="text"
+                                name="searchTitle"
+                                className="form-control"
+                                onChange={this.onChange}
+                                value={searchTitle}
+                            />
                         </div>
                         <table className="table table-hover table-bordered ">
                             <thead class="thead-dark">
