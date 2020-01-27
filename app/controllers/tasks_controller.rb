@@ -34,10 +34,10 @@ class TasksController < ApplicationController
   end
 
   def search
-    @search = Search.new(search_params)
     @tasks = Task.order(deadline: :asc)
-    @tasks = Task.where("tag LIKE ?", "%" + @search.keyword + "%") if @search.keyword.present?
-    @tasks = @tasks.where("deadline < ?", @search.deadline) if @search.deadline.present?
+    @tasks = Task.where("tag LIKE ?", "%" + params[:searchTag] + "%") if params[:searchTag].present?
+    @tasks = @tasks.where("deadline < ?", params[:searchDeadline]) if params[:searchDeadline].present?
+    @tasks = @tasks.where("title LIKE ?", "%" + params[:searchTitle] + "%") if params[:searchTitle].present?
     render json: @tasks
   end
 
@@ -47,7 +47,7 @@ class TasksController < ApplicationController
   end
 
   def search_params
-    params.require(:search).permit(:keyword, :deadline)
+    params.permit(:searchTitle, :searchTag, :searchDeadline)
   end
 
   def task

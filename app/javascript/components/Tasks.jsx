@@ -7,7 +7,8 @@ class Tasks extends React.Component {
         this.state = {
             tasks: [],
             searchTag: "",
-            searchTitle: ""
+            searchTitle: "",
+            searchDeadline: ""
     };
 
         this.onChange = this.onChange.bind(this);
@@ -30,10 +31,42 @@ class Tasks extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.searchTag !== this.state.searchTag || prevState.searchTitle !== this.state.searchTitle
+            || prevState.searchDeadline !== this.state.searchDeadline) {
+            const url = '/search';
+            const { tasks, searchTag, searchTitle, searchDeadline } = this.state;
+            const body = {
+                searchTitle,
+                searchDeadline,
+                searchTag
+            };
+
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-Token": token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error("Network response was not ok.");
+                })
+                .then(response => this.setState({ tasks: response}))
+                .catch(error => console.log(error.message));
+        }
+    }
+
     render() {
-        const { tasks, searchTag, searchTitle} = this.state;
-        const allTasks = tasks.filter((task, index) => task.tag.includes(searchTag))
-            .filter((task, index) => task.title.includes(searchTitle))
+        const { tasks, searchTag, searchTitle, searchDeadline} = this.state;
+        const allTasks = tasks
+            //.filter((task, index) => task.tag.includes(searchTag))
+            //.filter((task, index) => task.title.includes(searchTitle))
             .map((task, index) => (
             <tr key={index}>
                 <th scope="row">{index+1}</th>
@@ -94,6 +127,17 @@ class Tasks extends React.Component {
                                 className="form-control"
                                 onChange={this.onChange}
                                 value={searchTitle}
+                            />
+                        </div>
+
+                        <div className="form-group mb-3">
+                            <label>Before Deadline:</label>
+                            <input
+                                type="date"
+                                name="searchDeadline"
+                                className="form-control"
+                                onChange={this.onChange}
+                                value={searchDeadline}
                             />
                         </div>
                         <table className="table table-hover table-bordered ">

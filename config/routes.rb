@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/show/:id', to: 'tasks#show'
   delete '/destroy/:id', to: 'tasks#destroy'
   patch '/update/:id', to: 'tasks#update'
+  post '/search', to: 'tasks#search'
 
   root 'welcome#index'
   get '/*path' => 'tasks#index'
