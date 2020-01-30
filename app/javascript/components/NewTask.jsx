@@ -108,7 +108,7 @@ class NewTask extends React.Component {
                             <button type="submit" className="btn custom-button mt-3">
                                 Create Task
                             </button>
-                            <Link to="/tasks" className="btn btn-link mt-3">
+                            <Link to="/taskslist" className="btn btn-link mt-3">
                                 Back to tasks list
                             </Link>
                         </form>

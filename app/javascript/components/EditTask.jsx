@@ -34,7 +34,7 @@ class EditTask extends React.Component {
                 throw new Error("Network response was not ok.");
             })
             .then(response => this.setState(response))
-            .catch(() => this.props.history.push("/tasks"));
+            .catch(() => this.props.history.push("/taskslist"));
     }
 
     stripHtmlEntities(str) {
@@ -148,7 +148,7 @@ class EditTask extends React.Component {
                         <button type="submit" className="btn custom-button mt-3">
                             Edit Task
                         </button>
-                        <Link to="/tasks" className="btn btn-link mt-3">
+                        <Link to="/taskslist" className="btn btn-link mt-3">
                             Back to tasks list
                         </Link>
                     </form>

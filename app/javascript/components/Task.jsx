@@ -27,7 +27,7 @@ class Task extends React.Component {
                 throw new Error("Network response was not ok.");
             })
             .then(response => this.setState({ task: response }))
-            .catch(() => this.props.history.push("/tasks"));
+            .catch(() => this.props.history.push("/taskslist"));
     }
 
     addHtmlEntities(str) {
@@ -58,7 +58,7 @@ class Task extends React.Component {
                 }
                 throw new Error("Network response was not ok.");
             })
-            .then(() => this.props.history.push("/tasks"))
+            .then(() => this.props.history.push("/taskslist"))
             .catch(error => console.log(error.message));
     }
 
@@ -109,7 +109,7 @@ class Task extends React.Component {
                             </button>
                         </div>
                     </div>
-                    <Link to="/tasks" className="btn btn-link">
+                    <Link to="/taskslist" className="btn btn-link">
                         Back to tasks list
                     </Link>
                 </div>

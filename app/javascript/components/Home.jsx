@@ -8,7 +8,7 @@ export default () => (
                 <h1 className="display-4">Task Manager</h1>
                 <hr className="my-4" />
                 <Link
-                    to="/tasks"
+                    to="/taskslist"
                     className="btn btn-lg custom-button"
                     role="button"
                 >

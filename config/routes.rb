@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  #get 'welcome/index'
 
   get 'tasks/index'
   post 'tasks/create'
@@ -9,6 +8,6 @@ Rails.application.routes.draw do
   post '/search', to: 'tasks#search'
 
   root 'welcome#index'
-  get '/*path' => 'tasks#index'
+  get '/*path' => 'welcome#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

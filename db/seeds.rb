@@ -10,7 +10,7 @@
   Task.create(
       title: "Task #{i + 1}",
       description: 'Sample description.',
-      deadline: DateTime.new(2009,9,1,17),
+      deadline: DateTime.new(2022,9,1,17),
       tag: 'red'
   )
 end

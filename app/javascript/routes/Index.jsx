@@ -11,7 +11,7 @@ export default (
         <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/welcome/index" exact component={Home} />
-            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/taskslist" exact component={Tasks} />
             <Route path="/task/:id" exact component={Task} />
             <Route path="/task" exact component={NewTask} />
             <Route path="/editTask/:id" exact component={EditTask} />
