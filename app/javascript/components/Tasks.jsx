@@ -8,10 +8,12 @@ class Tasks extends React.Component {
             tasks: [],
             searchTag: "",
             searchTitle: "",
-            searchDeadline: ""
+            searchDeadline: "",
+            archiveView: false
     };
 
         this.onChange = this.onChange.bind(this);
+        this.changeView = this.changeView.bind(this);
     }
 
     componentDidMount() {
@@ -31,11 +33,17 @@ class Tasks extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    changeView() {
+        this.setState((state, props) => ({
+            archiveView: !state.archiveView
+        }));
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchTag !== this.state.searchTag || prevState.searchTitle !== this.state.searchTitle
-            || prevState.searchDeadline !== this.state.searchDeadline) {
+            || prevState.searchDeadline !== this.state.searchDeadline || prevState.archiveView !== this.state.archiveView) {
             const url = '/search';
-            const { tasks, searchTag, searchTitle, searchDeadline } = this.state;
+            const { tasks, searchTag, searchTitle, searchDeadline, archiveView } = this.state;
             const body = {
                 searchTitle,
                 searchDeadline,
@@ -63,9 +71,9 @@ class Tasks extends React.Component {
     }
 
     render() {
-        const { tasks, searchTag, searchTitle, searchDeadline} = this.state;
+        const { tasks, searchTag, searchTitle, searchDeadline, archiveView} = this.state;
         const allTasks = tasks
-            //.filter((task, index) => task.tag.includes(searchTag))
+            .filter((task, index) => task.completed == archiveView)
             //.filter((task, index) => task.title.includes(searchTitle))
             .map((task, index) => (
             <tr key={index}>
@@ -89,6 +97,16 @@ class Tasks extends React.Component {
                 </td>
             </tr>
         );
+        const currentTaskButton = (
+            <button type="button" className="btn custom-button mr-3" onClick={this.changeView}>
+                Switch to Current Tasks
+            </button>
+        )
+        const completedTaskButton = (
+            <button type="button" className="btn custom-button mr-3" onClick={this.changeView}>
+                Switch to Completed Tasks
+            </button>
+        )
 
         return (
             <>
@@ -103,6 +121,7 @@ class Tasks extends React.Component {
                 <div>
                     <main className="container">
                         <div className="text-right mb-3">
+                            {archiveView ? currentTaskButton : completedTaskButton}
                             <Link to="/task" className="btn custom-button">
                                 Create New Task
                             </Link>

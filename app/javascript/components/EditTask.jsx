@@ -8,7 +8,8 @@ class EditTask extends React.Component {
             title: "",
             description: "",
             deadline: new Date(),
-            tag: ""
+            tag: "",
+            completed: false
         } ;
 
         this.onChange = this.onChange.bind(this);
@@ -56,7 +57,7 @@ class EditTask extends React.Component {
         } = this.props;
         const url = `/update/${id}`;
 
-        const { title, description, deadline, tag } = this.state;
+        const { title, description, deadline, tag, completed } = this.state;
 
         if (title.length == 0 || description.length == 0)
             return;
@@ -65,7 +66,8 @@ class EditTask extends React.Component {
             title,
             description,
             deadline,
-            tag
+            tag,
+            completed
         };
 
         const token = document.querySelector('meta[name="csrf-token"]').content;
@@ -94,7 +96,7 @@ class EditTask extends React.Component {
     }
 
     render() {
-        const { title, description, deadline, tag } = this.state;
+        const { title, description, deadline, tag, completed} = this.state;
         const taskInstruction = this.addHtmlEntities(description);
 
         return (

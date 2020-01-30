@@ -10,20 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_29_040453) do
-
-  create_table "searches", force: :cascade do |t|
-    t.string "keyword"
-    t.date "deadline"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
+ActiveRecord::Schema.define(version: 2019_12_29_025924) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.string "tag"
     t.date "deadline"
+    t.boolean "completed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

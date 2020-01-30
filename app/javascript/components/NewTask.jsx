@@ -8,7 +8,8 @@ class NewTask extends React.Component {
             title: "",
             description: "",
             deadline: new Date(),
-            tag: ""
+            tag: "",
+            completed: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -29,7 +30,7 @@ class NewTask extends React.Component {
     onSubmit(event) {
         event.preventDefault();
         const url = "/tasks/create";
-        const { title, description, deadline, tag } = this.state;
+        const { title, description, deadline, tag, completed } = this.state;
 
         if (title.length == 0 || description.length == 0)
             return;
@@ -38,7 +39,8 @@ class NewTask extends React.Component {
             title,
             description,
             deadline,
-            tag
+            tag,
+            completed
         };
 
         const token = document.querySelector('meta[name="csrf-token"]').content;

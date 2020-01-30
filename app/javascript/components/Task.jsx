@@ -8,6 +8,7 @@ class Task extends React.Component {
 
         this.addHtmlEntities = this.addHtmlEntities.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
+        this.completeTask = this.completeTask.bind(this);
     }
 
     componentDidMount() {
@@ -34,6 +35,49 @@ class Task extends React.Component {
         return String(str)
             .replace(/&lt;/g, "<")
             .replace(/&gt;/g, ">");
+    }
+
+    completeTask() {
+        const {
+            match: {
+                params: { id }
+            }
+        } = this.props;
+        const url = `/update/${id}`;
+
+        const {
+            task: {
+                title, description, deadline, tag
+            }
+        } = this.state;
+
+        const completed = true;
+
+        const body = {
+            title,
+            description,
+            deadline,
+            tag,
+            completed
+        };
+
+        const token = document.querySelector('meta[name="csrf-token"]').content;
+        fetch(url, {
+            method: "PATCH",
+            headers: {
+                "X-CSRF-Token": token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Network response was not ok.");
+            })
+            .then(() => this.props.history.push("/taskslist"))
+            .catch(error => console.log(error.message));
     }
 
     deleteTask() {
@@ -77,6 +121,25 @@ class Task extends React.Component {
         )
         const taskInstruction = this.addHtmlEntities(task.description);
 
+        const deleteButton = (
+            <div className="col-sm-12 col-lg-2">
+                <label>This task is completed.</label>
+                <button type="button" className="btn btn-danger" onClick={this.deleteTask}>
+                    Delete Task
+                </button>
+            </div>
+        )
+        const completeButton = (
+            <div className="col-sm-12 col-lg-2">
+                <Link to={`/editTask/${task.id}`} className="btn custom-button mb-4">
+                    Edit Task
+                </Link>
+                <button type="button" className="btn btn-danger" onClick={this.completeTask}>
+                    Complete Task
+                </button>
+            </div>
+        )
+
         return (
             <div>
                 <div className="hero position-relative d-flex align-items-center justify-content-center">
@@ -100,14 +163,7 @@ class Task extends React.Component {
                                 }}
                             />
                         </div>
-                        <div className="col-sm-12 col-lg-2">
-                            <Link to={`/editTask/${task.id}`} className="btn custom-button mb-4">
-                                Edit Task
-                            </Link>
-                            <button type="button" className="btn btn-danger" onClick={this.deleteTask}>
-                                Complete Task
-                            </button>
-                        </div>
+                        {task.completed ? deleteButton : completeButton}
                     </div>
                     <Link to="/taskslist" className="btn btn-link">
                         Back to tasks list
