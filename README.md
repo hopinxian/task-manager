@@ -3,13 +3,7 @@
 Ho Pin Xian
 A0149796E
 
-Proof of Working Application: [https://hibbard.eu/rails-react-crud-app/](https://hibbard.eu/rails-react-crud-app/)
-
-## Requirements
-
-- [Ruby](https://www.ruby-lang.org/en/downloads/)
-- [Node.js](http://nodejs.org/)
-
+Proof of Working Application: https://nameless-cove-88597.herokuapp.com/
 ## Installation
 
 - Clone repo
@@ -20,5 +14,4 @@ Proof of Working Application: [https://hibbard.eu/rails-react-crud-app/](https:/
 ## Running
 
 - Start the Rails server with `rails s`
-- In a second terminal start the wepback-dev-server with `./bin/webpack-dev-server`
 - Hit http://localhost:3000/events/
