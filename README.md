@@ -14,4 +14,4 @@ Proof of Working Application: https://nameless-cove-88597.herokuapp.com/
 ## Running
 
 - Start the Rails server with `rails s`
-- Hit http://localhost:3000/events/
+- Hit http://localhost:3000
