@@ -3,25 +3,22 @@
 Ho Pin Xian
 A0149796E
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Proof of Working Application: [https://hibbard.eu/rails-react-crud-app/](https://hibbard.eu/rails-react-crud-app/)
 
-Things you may want to cover:
+## Requirements
 
-* Ruby version
+- [Ruby](https://www.ruby-lang.org/en/downloads/)
+- [Node.js](http://nodejs.org/)
 
-* System dependencies
+## Installation
 
-* Configuration
+- Clone repo
+- Run `bundle install`
+- Run `yarn install`
+- Run `rake db:create`, `rake db:migrate`, then `rake db:seed`
 
-* Database creation
+## Running
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Start the Rails server with `rails s`
+- In a second terminal start the wepback-dev-server with `./bin/webpack-dev-server`
+- Hit http://localhost:3000/events/

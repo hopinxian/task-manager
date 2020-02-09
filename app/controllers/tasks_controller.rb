@@ -35,7 +35,7 @@ class TasksController < ApplicationController
 
   def search
     @tasks = Task.order(deadline: :asc)
-    @tasks = Task.where("tag LIKE ?", "%" + params[:searchTag] + "%") if params[:searchTag].present?
+    @tasks = @tasks.where("tag LIKE ?", "%" + params[:searchTag] + "%") if params[:searchTag].present?
     @tasks = @tasks.where("deadline < ?", params[:searchDeadline]) if params[:searchDeadline].present?
     @tasks = @tasks.where("title LIKE ?", "%" + params[:searchTitle] + "%") if params[:searchTitle].present?
     render json: @tasks

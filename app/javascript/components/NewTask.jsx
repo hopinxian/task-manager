@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 class NewTask extends React.Component {
     constructor(props) {
         super(props);
+
+        //state stores data on new task
         this.state = {
             title: "",
             description: "",
@@ -17,27 +19,32 @@ class NewTask extends React.Component {
         this.stripHtmlEntities = this.stripHtmlEntities.bind(this);
     }
 
+    //replacing < and > characters with their escaped value, so as to not store raw HTML in database
     stripHtmlEntities(str) {
         return String(str)
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
     }
 
+    //updates state upon changes in task data
     onChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    //sends task data to be saved in database
     onSubmit(event) {
         event.preventDefault();
         const url = "/tasks/create";
         const { title, description, deadline, tag, completed } = this.state;
 
-        if (title.length == 0 || description.length == 0)
+        if (title.length === 0 || description.length === 0)
             return;
 
         const body = {
             title,
-            description,
+            description: this.stripHtmlEntities(
+                description.replace(/\n/g, "<br> <br>")
+            ),
             deadline,
             tag,
             completed

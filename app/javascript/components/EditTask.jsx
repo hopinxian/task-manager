@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 class EditTask extends React.Component {
     constructor(props) {
         super(props);
+
+        //state stores the current details of the edited task
         this.state = {
             title: "",
             description: "",
@@ -18,6 +20,7 @@ class EditTask extends React.Component {
         this.addHtmlEntities = this.addHtmlEntities.bind(this);
     }
 
+    //retrieves existing data of task being edited so as to display it
     componentDidMount() {
         const {
             match: {
@@ -38,16 +41,19 @@ class EditTask extends React.Component {
             .catch(() => this.props.history.push("/taskslist"));
     }
 
+    //replacing < and > characters with their escaped value so as to not store raw HTML in database
     stripHtmlEntities(str) {
         return String(str)
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
     }
 
+    //updates changes in task details inside the state
     onChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    //saves the new task details into the database
     onSubmit(event) {
         event.preventDefault();
         const {
@@ -59,12 +65,14 @@ class EditTask extends React.Component {
 
         const { title, description, deadline, tag, completed } = this.state;
 
-        if (title.length == 0 || description.length == 0)
+        if (title.length === 0 || description.length === 0)
             return;
 
         const body = {
             title,
-            description,
+            description: this.stripHtmlEntities(
+                description.replace(/\n/g, "<br> <br>")
+            ),
             deadline,
             tag,
             completed
@@ -89,6 +97,7 @@ class EditTask extends React.Component {
             .catch(error => console.log(error.message));
     }
 
+    //adds back < and > characters
     addHtmlEntities(str) {
         return String(str)
             .replace(/&lt;/g, "<")

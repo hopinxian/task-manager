@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 class Tasks extends React.Component {
     constructor(props) {
         super(props);
+
+        //state stores list of all tasks and the search variables
         this.state = {
             tasks: [],
             searchTag: "",
@@ -16,8 +18,10 @@ class Tasks extends React.Component {
         this.changeView = this.changeView.bind(this);
     }
 
+    //updates state with all tasks data from database
     componentDidMount() {
         const url = "/tasks/index";
+
         fetch(url)
             .then(response => {
                 if (response.ok) {
@@ -29,16 +33,19 @@ class Tasks extends React.Component {
             .catch(() => this.props.history.push("/"));
     }
 
+    //updates search variables in state
     onChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    //toggles view between completed tasks and uncompleted tasks
     changeView() {
         this.setState((state, props) => ({
             archiveView: !state.archiveView
         }));
     }
 
+    //upon changes in state, updates the list of tasks to show in tasklist
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchTag !== this.state.searchTag || prevState.searchTitle !== this.state.searchTitle
             || prevState.searchDeadline !== this.state.searchDeadline || prevState.archiveView !== this.state.archiveView) {
@@ -72,9 +79,10 @@ class Tasks extends React.Component {
 
     render() {
         const { tasks, searchTag, searchTitle, searchDeadline, archiveView} = this.state;
+
+        //displays the task data in table form
         const allTasks = tasks
             .filter((task, index) => task.completed == archiveView)
-            //.filter((task, index) => task.title.includes(searchTitle))
             .map((task, index) => (
             <tr key={index}>
                 <th scope="row">{index+1}</th>
@@ -88,6 +96,8 @@ class Tasks extends React.Component {
                 </td>
             </tr>
         ));
+
+        //displayed if there is no task to display
         const noTask = (
             <tr>
                 <td colspan = "5" className="align-items-center justify-content-center text-center">
@@ -97,6 +107,8 @@ class Tasks extends React.Component {
                 </td>
             </tr>
         );
+
+        //toggle buttons to change taskslist between completed tasks and uncompleted tasks
         const currentTaskButton = (
             <button type="button" className="btn custom-button mr-3" onClick={this.changeView}>
                 Switch to Current Tasks
