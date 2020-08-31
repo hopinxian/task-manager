@@ -3,7 +3,6 @@
 Ho Pin Xian
 A0149796E
 
-Proof of Working Application: https://nameless-cove-88597.herokuapp.com/
 ## Installation
 
 - Clone repo
